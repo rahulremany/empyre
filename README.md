@@ -1,113 +1,53 @@
-Empyre AI Fitness Coach
-🚀 Live Demo: (coming soon)
-📂 Repo: https://github.com/yourusername/empyre-ai-coach
-🗓️ Status: In development (Jul 2025 – Present)
+# Empyre AI Fitness Coach
 
-🎯 Project Overview
-Empyre is a chat-first, AI-driven fitness coach that guides users from Novitius (rookie) to Gladiator (peak physique) through fully personalized workout and meal plans—and a Roman-themed gamification system that rewards real-world progress.
+**🚀 Live Demo:** _(coming soon)_  
+**📂 Repo:** https://github.com/yourusername/empyre-ai-coach  
+**🗓️ Status:** In development (Jul 2025 – Present)
 
-Chat-First UX: Single /chat endpoint powers onboarding, dynamic Q&A, plan generation, tweaks, and check-ins.
+---
 
-AI-Personalization: Leverages the OpenAI API to compute TDEE/macros, craft workouts, and adapt questions based on user knowledge level.
+## 🎯 Project Overview
 
-Roman Gamification: Earn “Laurels,” rise through ranks (Novitius → Miles → Centurion → … → Gladiator), and opt into bracketed leaderboards once advanced.
+Empyre mimics a world-class personal trainer by:
 
-Safety & Reliability: Guardrails enforce healthy calorie deficits, rep/volume caps, retry logic, and fallback strategies to ensure safe, coherent plans.
+- **Chat-First Onboarding**  
+  Asking only the next most relevant question—tailored to each user’s knowledge level—until we have just enough data to build a plan.
 
-🚩 Key Features
-Dynamic Onboarding
+- **AI-Powered Plan Generation**  
+  Calls the OpenAI API (GPT-4o-mini) to compute TDEE/macros, craft workout splits (JSON), and generate meal plans—all behind guardrails:  
+  - Max 40% calorie deficit (never below BMR)  
+  - Protein ≥1.2 g/kg, fats ≥0.25 g/kg, carbs fill the rest  
+  - 1–25 reps, 1–6 sets, volume caps tied to user schedule
 
-Core vs. auxiliary fields collected via AI-driven prompts
+- **Dynamic Tweaks & Logging**  
+  Users message “machine broke” or “swap pull day” and the AI patches their plan JSON on the fly.
 
-Adaptive question phrasing for Beginner/Intermediate/Advanced lifters
+- **Roman Gamification**  
+  Earn “Laurels” for every check-in, level up from **Novitius → Gladiator**, and—once a Centurion—opt into a bracketed “Arena” leaderboard.
 
-Personalized Plans
+---
 
-Workout split JSON + meal plan JSON, complete with macros
+## 🔧 Tech Stack
 
-Real-time plan tweaks and logging through the chat interface
+- **Backend:** Python • FastAPI • Uvicorn  
+- **Data Validation:** Pydantic  
+- **AI Integration:** OpenAI ChatCompletion API (GPT-4 & GPT-4o-mini)  
+- **Development:** `venv`, `pip`, GitHub  
+- **Testing:** In-memory profile stubs & smoke tests
 
-Gamification & Progression
+---
 
-Automated rank calculation via Physique Index (TDEE, fullness, symmetry)
+## ⚙️ Installation
 
-“Arena” leaderboard opt-in at Centurion+ rank for fair, bracketed competition
-
-Robust AI Guardrails
-
-Dynamic TDEE & macro formulas (max 40% deficit)
-
-Rep limits (1–25), set limits (1–6), session volume caps
-
-Fallback retries and minimal default routines if AI hiccups
-
-🏗️ Architecture & Tech Stack
-Backend:
-
-FastAPI for REST endpoints
-
-Uvicorn as ASGI server
-
-Pydantic models for request/response validation
-
-AI Integration:
-
-OpenAI ChatCompletion API (GPT-4 and GPT-4o-mini)
-
-Versioned system prompts stored in services/ai_coach.py
-
-Data Layer (Dev Stub):
-
-In‐memory profile_service for rapid prototyping
-
-Future plans: PostgreSQL or MongoDB + Redis for session caching
-
-Development:
-
-Python 3.12, venv isolation
-
-Modular service layers (profile, ai_coach, routers)
-
-GitHub repo with CI-ready structure
-
-🚀 Getting Started
-Clone & enter repo
-
-bash
-Copy
-Edit
+```bash
 git clone git@github.com:yourusername/empyre-ai-coach.git
 cd empyre-ai-coach
-Create & activate virtualenv
 
-bash
-Copy
-Edit
 python3 -m venv empyre_venv
 source empyre_venv/bin/activate
-Install dependencies
 
-bash
-Copy
-Edit
 pip install -r requirements.txt
-Set your OpenAI key
 
-bash
-Copy
-Edit
 echo "OPENAI_API_KEY=sk-<YOUR_KEY>" > .env
-Run the server
 
-bash
-Copy
-Edit
 uvicorn empyre_backend.utils.main:app --reload
-Test the chat flow
-
-bash
-Copy
-Edit
-curl -X POST http://localhost:8000/chat \
-  -H "Content-Type: application/json" \
-  -d '{"user_id":"test","message":"Hello"}'

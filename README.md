@@ -39,7 +39,6 @@ Empyre mimics a world-class personal trainer by:
 
 ## ⚙️ Installation
 
-```bash
 git clone git@github.com:yourusername/empyre-ai-coach.git
 cd empyre-ai-coach
 
@@ -51,3 +50,21 @@ pip install -r requirements.txt
 echo "OPENAI_API_KEY=sk-<YOUR_KEY>" > .env
 
 uvicorn empyre_backend.utils.main:app --reload
+
+---
+
+## 📂 Repository Structure
+
+```
+empyre-ai-coach/
+├── empyre_backend/
+│   ├── routers/
+│   │   └── chat.py
+│   ├── services/
+│   │   ├── ai_coach.py
+│   │   └── profile_service.py
+│   └── utils/
+│       └── main.py
+├── test_plan_gen.py
+├── requirements.txt
+└── README.md
